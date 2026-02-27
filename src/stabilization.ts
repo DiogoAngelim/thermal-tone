@@ -63,7 +63,7 @@ async function generateNormalization(
   }
   // Compose prompt for OpenAI
   // const lastMsg = transcript[transcript.length - 1] || ''; // unused
-  const prompt = `You are a conversation moderator. The conversation so far is:\n${transcript.join('\n')}\nThe overall temperature is ${deviation > 1.5 ? 'very cold' : deviation > 0.5 ? 'cold' : 'neutral'}.\nGenerate a single, in-context response that would normalize the temperature, i.e., if the conversation is cold, respond warmly and vice versa. The response should be concise and contextually appropriate.`;
+  const prompt = `You are a conversational moderator. The conversation so far is:\n${transcript.join('\n')}\nThe overall temperature is ${deviation > 1.5 ? 'very cold' : deviation > 0.5 ? 'cold' : 'neutral'}.\nProduce a short, natural-sounding reply (one or two sentences) that helps normalize the tone. Then on a new line append 'EstimatedTemperature: <value>' where <value> is your estimate of the conversation temperature in Celsius (e.g. 36.7). Only output these two lines, nothing else.`;
   try {
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',

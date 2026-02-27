@@ -8,6 +8,8 @@
     "build": "tsc --project tsconfig.json",
     "test": "jest --coverage",
     "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
     "prepare": "npm run build"
   },
   "keywords": [
