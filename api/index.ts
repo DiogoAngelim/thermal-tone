@@ -14,9 +14,10 @@ export default async function handler(req: Request): Promise<Response> {
     let body: any;
     try {
       body = await req.json();
-    } catch {
-      // fallback for Node.js/Serverless
-      body = await new Response(req.body).json();
+    } catch (err) {
+      // fallback for Node.js/Serverless: read as text, then parse
+      const text = typeof req.text === 'function' ? await req.text() : '';
+      body = text ? JSON.parse(text) : {};
     }
     const { messages, options } = body;
     console.log('Calling stabilizeConversation', { messages, options });
