@@ -19,6 +19,7 @@ export default async function handler(req: Request): Promise<Response> {
       const text = typeof req.text === 'function' ? await req.text() : '';
       body = text ? JSON.parse(text) : {};
     }
+    console.log('Raw body:', body);
     const { messages, options } = body;
     if (!Array.isArray(messages)) {
       console.error('Invalid input: messages must be an array');
