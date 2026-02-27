@@ -20,6 +20,10 @@ export default async function handler(req: Request): Promise<Response> {
       body = text ? JSON.parse(text) : {};
     }
     const { messages, options } = body;
+    if (!Array.isArray(messages)) {
+      console.error('Invalid input: messages must be an array');
+      return new Response(JSON.stringify({ error: 'messages must be an array' }), { status: 400 });
+    }
     console.log('Calling stabilizeConversation', { messages, options });
     const result: StabilizationResult = await stabilizeConversation(messages, options as StabilizationOptions);
     console.log('stabilizeConversation finished', result);
