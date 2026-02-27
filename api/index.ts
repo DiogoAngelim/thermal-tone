@@ -10,7 +10,15 @@ export default async function handler(req: Request): Promise<Response> {
   }
   try {
     console.log('Parsing request JSON');
-    const { messages, options } = await req.json();
+    // Compatible with Edge and Node runtimes
+    let body: any;
+    try {
+      body = await req.json();
+    } catch {
+      // fallback for Node.js/Serverless
+      body = await new Response(req.body).json();
+    }
+    const { messages, options } = body;
     console.log('Calling stabilizeConversation', { messages, options });
     const result: StabilizationResult = await stabilizeConversation(messages, options as StabilizationOptions);
     console.log('stabilizeConversation finished', result);
